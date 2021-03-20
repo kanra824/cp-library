@@ -1,8 +1,9 @@
 struct UnionFind {
   int n;
+  int cnt;
   std::vector<int> par;
 
-  UnionFind(int n): n(n) {
+  UnionFind(int n): n(n), cnt(n) {
     par.resize(n, -1);
   }
 
@@ -18,6 +19,7 @@ struct UnionFind {
     x = root(x);
     y = root(y);
     if(x == y) return;
+    cnt--;
 
     if(par[x] < par[y]) swap(x, y);
 
