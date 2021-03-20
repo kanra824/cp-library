@@ -10,22 +10,23 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: checkout
+    - name: Checkout
       uses: actions/checkout@v2
 
-    - name: python
+    - name: Python
       uses: actions/setup-python@v2
       with:
         python-version: 3.9.1
         
-    - name: install oj-tool
+    - name: Install oj-tool
       run: pip3 install -U online-judge-verify-helper
 
-    - name: check changes
+    - name: Check changes
       uses: marceloprado/has-changed-path@v1
-      id: changed-main
+      id: changed-front
       with:
         paths: lib/number/** test/number/**
       
     - name: Run tests
+      if: steps.changed-front.outputs.changed == 'true'
       run: oj-verify run test/number/**
