@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  build:
+  verify:
     runs-on: ubuntu-latest
     
     steps:
@@ -31,4 +31,6 @@ jobs:
       
     - name: Run tests
       if: steps.changed-front.outputs.changed == 'true'
-      run: oj-verify run test/number/**
+      run: |
+        cd test/data_structure/
+        oj-verify run
