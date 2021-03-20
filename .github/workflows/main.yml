@@ -1,37 +1,19 @@
 name: verify
 
 on:
+  pull_request:
   push:
     paths:
-  pull_request:
-    paths:
+      #- 'lib/**'
+      #- 'test/**'
 
 jobs:
-  setup:
+  verify1:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.9.1
-
-      - name: install oj-tool
-        run: pip3 install -U online-judge-verify-helper
-
-  build1:
-    runs-on: ubuntu-latest
-    needs: setup
-    
-    steps:
-    - name: Run tests
-      run: oj-verify run test/number/**
-
-  build2:
-    runs-on: ubuntu-latest
-    needs: setup
-
-    steps:
-      - uses: actions/checkout@v2
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: setup
+        uses: ./.github/actions/setup.yml
       - name: Run tests
-        run: oj-verify run test/data_structure/**
+        run: oj-verify run test/number/**

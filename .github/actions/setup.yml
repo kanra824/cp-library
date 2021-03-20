@@ -1,0 +1,7 @@
+name: setup
+author: kanra824
+description: setup for verifying
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
