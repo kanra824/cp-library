@@ -32,5 +32,6 @@ jobs:
     needs: setup
 
     steps:
+      - uses: actions/checkout@v2
       - name: Run tests
         run: oj-verify run test/data_structure/**
