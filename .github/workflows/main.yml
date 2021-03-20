@@ -1,23 +1,35 @@
-name: ci
+name: verify
 
 on:
   push:
   pull_request:
-  
+
 jobs:
-  build:
+  verify1:
     runs-on: ubuntu-latest
-    
     steps:
-    - uses: actions/checkout@v2
-    
+    - name: checkout
+      uses: actions/checkout@v2
     - name: python
       uses: actions/setup-python@v2
       with:
         python-version: 3.9.1
-        
     - name: install oj-tool
       run: pip3 install -U online-judge-verify-helper
-      
     - name: Run tests
-      run: oj-verify all
+      run: oj-verify run test/number/**
+
+
+  verify2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9.1
+      - name: install oj-tool
+        run: pip3 install -U online-judge-verify-helper
+      - name: Run tests
+        run: oj-verify run test/data_structure/**
