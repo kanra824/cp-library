@@ -2,22 +2,66 @@ name: ci
 
 on:
   push:
+    branches: [ main ]
   pull_request:
-  
+
 jobs:
-  build:
+  verify_number:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v2
-    
-    - name: python
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 100
+
+    - name: Python
       uses: actions/setup-python@v2
       with:
         python-version: 3.9.1
-        
-    - name: install oj-tool
+
+    - name: Install oj-tool
       run: pip3 install -U online-judge-verify-helper
-      
+
+    - name: Check changes
+      uses: marceloprado/has-changed-path@v1
+      id: changed-front
+      with:
+        paths: lib/number/** test/number/**
+
     - name: Run tests
-      run: oj-verify all
+      if: steps.changed-front.outputs.changed == 'true'
+      run: |
+        cd test/number/
+        oj-verify run
+
+
+
+  verify_data_structure:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 100
+
+      - name: Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9.1
+
+      - name: Install oj-tool
+        run: pip3 install -U online-judge-verify-helper
+
+      - name: Check changes
+        uses: marceloprado/has-changed-path@v1
+        id: changed-front
+        with:
+          paths: lib/data_structure/** test/data_structure/**
+
+      - name: Run tests
+        if: steps.changed-front.outputs.changed == 'true'
+        run: |
+          cd test/data_structure/
+          oj-verify run
