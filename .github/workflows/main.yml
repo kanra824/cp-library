@@ -14,6 +14,6 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
       - name: setup
-        uses: ./.github/actions/setup.yml
+        uses: ./.github/actions/setup
       - name: Run tests
         run: oj-verify run test/number/**
