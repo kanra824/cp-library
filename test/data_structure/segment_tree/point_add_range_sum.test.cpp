@@ -1,7 +1,7 @@
 #define PROBLEM "https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_B&lang=jp"
 
-#include "../../lib/template.cpp"
-#include "../../lib/data_structure/segment_tree.cpp"
+#include "../../../lib/template.cpp"
+#include "../../../lib/data_structure/segment_tree.cpp"
 
 int main() {
   cin.tie(0);
@@ -15,6 +15,7 @@ int main() {
       [](int a, int b) {return a + b;},
       0
       );
+
   REP(i, q) {
     int t; cin >> t;
     int x, y; cin >> x >> y;

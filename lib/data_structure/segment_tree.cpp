@@ -48,7 +48,7 @@ struct SegmentTree {
     idx = idx + n;
     node[idx] = g(node[idx], val);
     while(idx >>= 1) {
-      node[idx] = g(node[2*idx], node[2*idx+1]);
+      node[idx] = f(node[2*idx], node[2*idx+1]);
     }
   }
 
