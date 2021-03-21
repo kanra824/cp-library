@@ -1,5 +1,5 @@
 template <class M>
-struct SegmentTree {
+class SegmentTree {
   using F = function<M(M, M)>;
   using G = function<M(M, M)>;
 
@@ -8,10 +8,10 @@ struct SegmentTree {
   M e = numeric_limits<M>::max();
 
   int n;
-  vector<int> node;
+  vector<M> node;
 
-  SegmentTree(int sz, F ff, G gg, M init_val) {
-    f = [&](M a, M b) {
+  void init(int sz, F ff, G gg) {
+    f = [=](M a, M b) {
       if(a == e) {
         return b;
       } else if(b == e) {
@@ -21,7 +21,7 @@ struct SegmentTree {
       }
     };
 
-    g = [&](M a, M b) {
+    g = [=](M a, M b) {
       if(a == e) {
         return b;
       } else if(b == e) {
@@ -36,6 +36,11 @@ struct SegmentTree {
       n <<= 1;
     }
     node.resize(2*n, e);
+  }
+
+public:
+  SegmentTree(int sz, F ff, G gg, M init_val) {
+    init(sz, ff, gg);
     for(int i=n;i<n+sz;i++) {
       node[i] = init_val;
     }
@@ -44,7 +49,17 @@ struct SegmentTree {
     }
   }
 
-  void update(int idx, int val) {
+  SegmentTree(int sz, F ff, G gg, vector<M> v) {
+    init(sz, ff, gg);
+    for(int i=n;i<n+sz;i++) {
+      node[i] = v[i-n];
+    }
+    for(int i=n-1;i>=1;i--) {
+      node[i] = g(node[2*i], node[2*i+1]);
+    }
+  }
+
+  void update(int idx, M val) {
     idx = idx + n;
     node[idx] = g(node[idx], val);
     while(idx >>= 1) {
@@ -52,7 +67,7 @@ struct SegmentTree {
     }
   }
 
-  int query(int l, int r, int a, int b, int k) {
+  M query(int l, int r, int a, int b, int k) {
     if(l <= a && b <= r) {
       return node[k];
     }
@@ -60,13 +75,13 @@ struct SegmentTree {
       return e;
     }
 
-    int val1 = query(l, r, a, (a+b)/2, 2*k);
-    int val2 = query(l, r, (a+b)/2, b, 2*k+1);
+    M val1 = query(l, r, a, (a+b)/2, 2*k);
+    M val2 = query(l, r, (a+b)/2, b, 2*k+1);
 
     return f(val1, val2);
   }
 
-  int query(int l, int r) {
+  M query(int l, int r) {
     return query(l, r, 0, n, 1);
   }
 };

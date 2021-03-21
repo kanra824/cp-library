@@ -11,7 +11,7 @@ int main() {
       n,
       [](int a, int b){return min(a, b);},
       [](int a, int b){return b;},
-      INF
+      vector<int>(n, INF)
       );
   REP(i, q) {
     int t; cin >> t;
