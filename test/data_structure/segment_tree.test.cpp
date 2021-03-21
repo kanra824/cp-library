@@ -9,7 +9,12 @@ int main() {
   cout << fixed << setprecision(10);
 
   int n, q; cin >> n >> q;
-  SegmentTree st(n);
+  SegmentTree<int> st(
+      n,
+      [](int a, int b) {return a + b;},
+      [](int a, int b) {return a + b;},
+      0
+      );
   REP(i, q) {
     int t; cin >> t;
     int x, y; cin >> x >> y;
