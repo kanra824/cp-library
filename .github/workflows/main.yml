@@ -15,6 +15,12 @@ jobs:
       with:
         fetch-depth: 10
 
+    - name: Check changes
+      uses: marceloprado/has-changed-path@v1
+      id: changed-front
+      with:
+        paths: lib/number/** test/number/**
+
     - name: Python
       uses: actions/setup-python@v2
       with:
@@ -22,12 +28,6 @@ jobs:
 
     - name: Install oj-tool
       run: pip3 install -U online-judge-verify-helper
-
-    - name: Check changes
-      uses: marceloprado/has-changed-path@v1
-      id: changed-front
-      with:
-        paths: lib/number/** test/number/**
 
     - name: Run tests
       if: steps.changed-front.outputs.changed == 'true'
@@ -44,7 +44,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          fetch-depth: 100
+          fetch-depth: 10
+
+      - name: Check changes
+        uses: marceloprado/has-changed-path@v1
+        id: changed-front
+        with:
+          paths: lib/data_structure/** test/data_structure/**
 
       - name: Python
         uses: actions/setup-python@v2
@@ -53,12 +59,6 @@ jobs:
 
       - name: Install oj-tool
         run: pip3 install -U online-judge-verify-helper
-
-      - name: Check changes
-        uses: marceloprado/has-changed-path@v1
-        id: changed-front
-        with:
-          paths: lib/data_structure/** test/data_structure/**
 
       - name: Run tests
         if: steps.changed-front.outputs.changed == 'true'
