@@ -10,30 +10,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 10
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 10
 
-    - name: Check changes
-      uses: marceloprado/has-changed-path@v1
-      id: changed-front
-      with:
-        paths: lib/number/** test/number/**
+      - name: Check changes
+        uses: marceloprado/has-changed-path@v1
+        id: changed-front
+        with:
+          paths: lib/number/** test/number/**
 
-    - name: Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.9.1
+      - name: Python
+        if: steps.changed-front.outputs.changed == 'true'
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9.1
 
-    - name: Install oj-tool
-      run: pip3 install -U online-judge-verify-helper
+      - name: Install oj-tool
+        if: steps.changed-front.outputs.changed == 'true'
+        run: pip3 install -U online-judge-verify-helper
 
-    - name: Run tests
-      if: steps.changed-front.outputs.changed == 'true'
-      run: |
-        cd test/number/
-        oj-verify run
+      - name: Run tests
+        if: steps.changed-front.outputs.changed == 'true'
+        run: |
+          cd test/number/
+          oj-verify run
 
 
 
@@ -53,11 +55,13 @@ jobs:
           paths: lib/data_structure/** test/data_structure/**
 
       - name: Python
+        if: steps.changed-front.outputs.changed == 'true'
         uses: actions/setup-python@v2
         with:
           python-version: 3.9.1
 
       - name: Install oj-tool
+        if: steps.changed-front.outputs.changed == 'true'
         run: pip3 install -U online-judge-verify-helper
 
       - name: Run tests
@@ -65,19 +69,3 @@ jobs:
         run: |
           cd test/data_structure/
           oj-verify run
-
-  create_live_template:
-    runs-on: ubuntu-latest
-    needs: [
-      verify_number,
-      verify_data_structure,
-    ]
-
-    steps:
-      # referred to github.com/habara-k/ICPCLibrary
-      - name: Create live-template
-        uses: actions/upload-artifact@master
-        with:
-          name: C_C__.xml
-          path: clion/C_C__.xml
-        if: always()
