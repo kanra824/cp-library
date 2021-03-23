@@ -58,7 +58,7 @@ jobs:
           paths: lib/data_structure/** test/data_structure/**
         env:
           SOURCE: path
-      - name: Run tests for graph
+      - name: Run tests for data-structure
         if: steps.changed-data-structure.outputs.changed == 'true'
         run: |
           cd test/data_structure/
