@@ -13,8 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          fetch-depth: 100
-          path: path
+          fetch-depth: 10
 
       # setup
       - name: Check All diff
@@ -22,8 +21,6 @@ jobs:
         id: changed-main
         with:
           paths: lib/** test/**
-        env:
-          SOURCE: path
       - name: Install Python
         if: steps.changed-main.outputs.changed == 'true'
         uses: actions/setup-python@v2
@@ -41,8 +38,6 @@ jobs:
         id: changed-number
         with:
           paths: lib/number/** test/number/**
-        env:
-          SOURCE: path
       - name: Run tests for number
         # if: steps.changed-number.outputs.changed == 'true'
         run: |
@@ -56,8 +51,6 @@ jobs:
         id: changed-data-structure
         with:
           paths: lib/data_structure/** test/data_structure/**
-        env:
-          SOURCE: path
       - name: Run tests for data-structure
         # if: steps.changed-data-structure.outputs.changed == 'true'
         run: |
@@ -70,8 +63,6 @@ jobs:
         id: changed-graph
         with:
           paths: lib/graph/** test/graph/**
-        env:
-          SOURCE: path
       - name: Run tests for graph
         # if: steps.changed-graph.outputs.changed == 'true'
         run: |
