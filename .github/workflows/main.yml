@@ -22,49 +22,49 @@ jobs:
         with:
           paths: lib/** test/**
       - name: Install Python
-        #if: steps.changed-main.outputs.changed == 'true'
+        if: steps.changed-main.outputs.changed == 'true'
         uses: actions/setup-python@v2
         with:
           python-version: 3.9.1
       - name: Install oj-tool
-        #if: steps.changed-main.outputs.changed == 'true'
+        if: steps.changed-main.outputs.changed == 'true'
         shell: bash
         run: pip3 install -U online-judge-verify-helper
 
       # number
       - name: Check diff for number
-        #if: steps.changed-main.outputs.changed == 'true'
+        if: steps.changed-main.outputs.changed == 'true'
         uses: marceloprado/has-changed-path@v1
         id: changed-number
         with:
           paths: lib/number/** test/number/**
       - name: Run tests for number
-        # if: steps.changed-number.outputs.changed == 'true'
+        if: steps.changed-number.outputs.changed == 'true'
         run: |
           cd test/number/
           oj-verify run
 
       # data-structure
       - name: Check diff for data-structure
-        #if: steps.changed-main.outputs.changed == 'true'
+        if: steps.changed-main.outputs.changed == 'true'
         uses: marceloprado/has-changed-path@v1
         id: changed-data-structure
         with:
           paths: lib/data_structure/** test/data_structure/**
       - name: Run tests for data-structure
-        # if: steps.changed-data-structure.outputs.changed == 'true'
+        if: steps.changed-data-structure.outputs.changed == 'true'
         run: |
           cd test/data_structure/
           oj-verify run
       # data-structure
       - name: Check diff for graph
-        #if: steps.changed-main.outputs.changed == 'true'
+        if: steps.changed-main.outputs.changed == 'true'
         uses: marceloprado/has-changed-path@v1
         id: changed-graph
         with:
           paths: lib/graph/** test/graph/**
       - name: Run tests for graph
-        # if: steps.changed-graph.outputs.changed == 'true'
+        if: steps.changed-graph.outputs.changed == 'true'
         run: |
           cd test/graph/
           oj-verify run
