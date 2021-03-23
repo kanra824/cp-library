@@ -1,7 +1,7 @@
 template<class T>
 void warshall_floyd(vector<vector<T>> &d) {
   int sz = SZ(d);
-  int now_inf = numeric_limits::max<T>();
+  int now_inf = numeric_limits<T>::max();
   REP(k, sz) {
     REP(i, sz) {
       REP(j, sz) {
