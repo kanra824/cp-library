@@ -6,32 +6,45 @@ on:
   pull_request:
 
 jobs:
-  verify_number:
+  verify:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Check changes
+      - name: Check All diff
+        uses: marceloprado/has-changed-path@v1
+        id: changed-front
+        with:
+          paths: lib/** test/**
+      - name: Install Python
+        if: steps.changed-front.outputs.changed == 'true'
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9.1
+      - name: Install oj-tool
+        if: steps.changed-front.outputs.changed == 'true'
+        shell: bash
+        run: pip3 install -U online-judge-verify-helper
+
+      - name: Check diff for number
         uses: marceloprado/has-changed-path@v1
         id: changed-front
         with:
           paths: lib/number/** test/number/**
-      - name: Run
+      - name: Run tests for number
         if: steps.changed-front.outputs.changed == 'true'
-        uses: ./.github/actions/
+        run: |
+          cd test/number/
+          oj-verify run
+
+      - name: Check diff for data-structure
+        uses: marceloprado/has-changed-path@v1
+        id: changed-front
         with:
-          verify-dir: 'number'
-
-
-
-  verify_data_structure:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Run
-        uses: ./.github/actions/
-        with:
-          verify-dir: 'data_structure'
+          paths: lib/data_structure/** test/data_structure/**
+      - name: Run tests for number
+        if: steps.changed-front.outputs.changed == 'true'
+        run: |
+          cd test/data_structure/
+          oj-verify run
