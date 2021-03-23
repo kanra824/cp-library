@@ -16,6 +16,7 @@ jobs:
           fetch-depth: 10
           path: path
 
+      # setup
       - name: Check All diff
         uses: marceloprado/has-changed-path@v1
         id: changed-main
@@ -57,8 +58,22 @@ jobs:
           paths: lib/data_structure/** test/data_structure/**
         env:
           SOURCE: path
-      - name: Run tests for number
+      - name: Run tests for graph
         if: steps.changed-data-structure.outputs.changed == 'true'
         run: |
           cd test/data_structure/
+          oj-verify run
+      # data-structure
+      - name: Check diff for graph
+        if: steps.changed-main.outputs.changed == 'true'
+        uses: marceloprado/has-changed-path@v1
+        id: changed-graph
+        with:
+          paths: lib/graph/** test/graph/**
+        env:
+          SOURCE: path
+      - name: Run tests for graph
+        if: steps.changed-graph.outputs.changed == 'true'
+        run: |
+          cd test/graph/
           oj-verify run
