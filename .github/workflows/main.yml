@@ -75,6 +75,6 @@ jobs:
       - name: Run tests for graph
         if: steps.changed-graph.outputs.changed == 'true'
         run: |
-          ls
+          ls >&2
           cd test/graph/
           oj-verify run
