@@ -44,7 +44,7 @@ jobs:
         env:
           SOURCE: path
       - name: Run tests for number
-        if: steps.changed-number.outputs.changed == 'true'
+        # if: steps.changed-number.outputs.changed == 'true'
         run: |
           cd test/number/
           oj-verify run
@@ -59,7 +59,7 @@ jobs:
         env:
           SOURCE: path
       - name: Run tests for data-structure
-        if: steps.changed-data-structure.outputs.changed == 'true'
+        # if: steps.changed-data-structure.outputs.changed == 'true'
         run: |
           cd test/data_structure/
           oj-verify run
@@ -73,8 +73,7 @@ jobs:
         env:
           SOURCE: path
       - name: Run tests for graph
-        if: steps.changed-graph.outputs.changed == 'true'
+        # if: steps.changed-graph.outputs.changed == 'true'
         run: |
-          ls >&2
           cd test/graph/
           oj-verify run
