@@ -13,32 +13,35 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          fetch-depth: 100
+          fetch-depth: 10
+          path: path
 
       - name: Check All diff
         uses: marceloprado/has-changed-path@v1
-        id: changed-front
+        id: changed-main
         with:
           paths: lib/** test/**
+        env:
+          SOURCE: path
       - name: Install Python
-        if: steps.changed-front.outputs.changed == 'true'
+        if: steps.changed-main.outputs.changed == 'true'
         uses: actions/setup-python@v2
         with:
           python-version: 3.9.1
       - name: Install oj-tool
-        if: steps.changed-front.outputs.changed == 'true'
+        if: steps.changed-main.outputs.changed == 'true'
         shell: bash
         run: pip3 install -U online-judge-verify-helper
 
       # number
       - name: Check diff for number
-        if: steps.changed-front.outputs.changed == 'true'
+        if: steps.changed-main.outputs.changed == 'true'
         uses: marceloprado/has-changed-path@v1
         id: changed-number
         with:
           paths: lib/number/** test/number/**
         env:
-          SOURCE: number
+          SOURCE: path
       - name: Run tests for number
         if: steps.changed-number.outputs.changed == 'true'
         run: |
@@ -47,13 +50,13 @@ jobs:
 
       # data-structure
       - name: Check diff for data-structure
-        if: steps.changed-front.outputs.changed == 'true'
+        if: steps.changed-main.outputs.changed == 'true'
         uses: marceloprado/has-changed-path@v1
         id: changed-data-structure
         with:
           paths: lib/data_structure/** test/data_structure/**
         env:
-          SOURCE: data-structure
+          SOURCE: path
       - name: Run tests for number
         if: steps.changed-data-structure.outputs.changed == 'true'
         run: |
