@@ -40,35 +40,6 @@ class SegmentTree {
     node.resize(2 * n, e);
   }
 
-public:
-  SegmentTree(int sz, F ff, G gg, M init_val) {
-    init(sz, ff, gg);
-    for (int i = n; i < n + sz; i++) {
-      node[i] = init_val;
-    }
-    for (int i = n - 1; i >= 1; i--) {
-      node[i] = g(node[2 * i], node[2 * i + 1]);
-    }
-  }
-
-  SegmentTree(int sz, F ff, G gg, vector<M> v) {
-    init(sz, ff, gg);
-    for (int i = n; i < n + sz; i++) {
-      node[i] = v[i - n];
-    }
-    for (int i = n - 1; i >= 1; i--) {
-      node[i] = g(node[2 * i], node[2 * i + 1]);
-    }
-  }
-
-  void update(int idx, M val) {
-    idx = idx + n;
-    node[idx] = g(node[idx], val);
-    while (idx >>= 1) {
-      node[idx] = f(node[2 * idx], node[2 * idx + 1]);
-    }
-  }
-
   M query(int l, int r, int a, int b, int k) {
     if (l <= a && b <= r) {
       return node[k];
@@ -81,10 +52,6 @@ public:
     M val2 = query(l, r, (a + b) / 2, b, 2 * k + 1);
 
     return f(val1, val2);
-  }
-
-  M query(int l, int r) {
-    return query(l, r, 0, n, 1);
   }
 
   int satisfy_right(int l, int r, int x, int a, int b, int k) {
@@ -103,12 +70,6 @@ public:
     }
   }
 
-  int satisfy_right(int l, int r, M x, CHECK_F check_f_in) {
-    check_f = move(check_f_in);
-    return satisfy_right(l, r, x, 0, n, 1);
-  }
-
-
   int satisfy_left(int l, int r, int x, int a, int b, int k) {
     if (!check_f(node[k]) || r <= a || b <= l) {
       return -1;
@@ -124,6 +85,98 @@ public:
       return idx1;
     }
   }
+
+public:
+
+  /*
+    sz: サイズ
+    ff: マージに用いる関数
+    gg: 更新に用いる関数
+    init_val: 初期値
+
+    結合則を満たす必要がある
+
+    O(n)
+    ex: range Update range Sum
+    SegmentTree(
+      n,
+      [](int a, int b){return a + b;},
+      [](int a, int b){return b;},
+      INF
+    );
+  */
+  SegmentTree(int sz, F ff, G gg, M init_val) {
+    init(sz, ff, gg);
+    for (int i = n; i < n + sz; i++) {
+      node[i] = init_val;
+    }
+    for (int i = n - 1; i >= 1; i--) {
+      node[i] = g(node[2 * i], node[2 * i + 1]);
+    }
+  }
+
+
+  /*
+
+   O(n)
+
+   ex: range Upd range Sum
+   SegmentTree(
+      n,
+      [](int a, int b){return a + b;},
+      [](int a, int b){return b;},
+      v
+   );
+  */
+  SegmentTree(int sz, F ff, G gg, vector<M> v) {
+    init(sz, ff, gg);
+    for (int i = n; i < n + sz; i++) {
+      node[i] = v[i - n];
+    }
+    for (int i = n - 1; i >= 1; i--) {
+      node[i] = g(node[2 * i], node[2 * i + 1]);
+    }
+  }
+
+  /*
+   *
+   O(log n)
+   */
+  void update(int idx, M val) {
+    idx = idx + n;
+    node[idx] = g(node[idx], val);
+    while (idx >>= 1) {
+      node[idx] = f(node[2 * idx], node[2 * idx + 1]);
+    }
+  }
+
+  /*
+   *
+   O(log n)
+   */
+  M query(int l, int r) {
+    return query(l, r, 0, n, 1);
+  }
+
+  /*
+   *
+   check_f: M -> bool
+   [l, r) の要素について、check_fを満たすような最も右の要素を求める。
+
+   [l, r) のある要素についてcheck_fがtrueになるならばcheck_f(query(l, r)) がtrueになる
+   を満たす必要がある
+   */
+  int satisfy_right(int l, int r, M x, CHECK_F check_f_in) {
+    check_f = move(check_f_in);
+    return satisfy_right(l, r, x, 0, n, 1);
+  }
+
+  /*
+   *
+   [l, r) の要素について、check_f を満たすような最も左の要素を求める。
+
+   check_fの条件はrightといっしょ
+   */
 
   int satisfy_left(int l, int r, M x, CHECK_F check_f_in) {
     check_f = move(check_f_in);
