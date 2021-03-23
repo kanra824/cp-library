@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Run
-        uses: .github/actions/
+        uses: ./.github/actions/
         with:
           verify-dir: 'number'
 
@@ -22,6 +22,6 @@ jobs:
 
     steps:
       - name: Run
-        uses: .github/actions/
+        uses: ./.github/actions/
         with:
           verify-dir: 'data_structure'
