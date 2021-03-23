@@ -9,29 +9,17 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 10
-
-    - name: Check changes
-      uses: marceloprado/has-changed-path@v1
-      id: changed-front
-      with:
-        paths: lib/${{ inputs.verify-dir }}/** test/${{ inputs.verify-dir }}/**
-
     - name: Python
-      if: steps.changed-front.outputs.changed == 'true'
       uses: actions/setup-python@v2
       with:
         python-version: 3.9.1
 
     - name: Install oj-tool
-      if: steps.changed-front.outputs.changed == 'true'
+      shell: bash
       run: pip3 install -U online-judge-verify-helper
 
     - name: Run tests
-      if: steps.changed-front.outputs.changed == 'true'
+      shell: bash
       run: |
         cd test/${{ inputs.verify-dir }}/
         oj-verify run
