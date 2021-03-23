@@ -97,7 +97,7 @@ public:
     結合則を満たす必要がある
 
     O(n)
-    ex: range Update range Sum
+    ex: point Update range Sum
     SegmentTree(
       n,
       [](int a, int b){return a + b;},
@@ -120,7 +120,7 @@ public:
 
    O(n)
 
-   ex: range Upd range Sum
+   ex: point Update range Sum
    SegmentTree(
       n,
       [](int a, int b){return a + b;},
