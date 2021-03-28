@@ -1,4 +1,3 @@
-// とりあえずrange update range sum
 template <class M, class OM>
 struct LazySegmentTree {
   int n;
