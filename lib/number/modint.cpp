@@ -1,3 +1,5 @@
+// のしさんのブログを参考にした(2021/03/28): https://noshi91.hatenablog.com/entry/2019/03/31/174006
+
 template <ll MOD>
 struct mint {
   ll val;
@@ -16,46 +18,45 @@ struct mint {
     return mint(res);
   }
 
-  // !!! MOD must be a prime number
   mint inv() {
     return pow(val, MOD-2);
   }
 
-  mint operator+(const mint &m2) {
+  constexpr mint operator+(const mint &m2) {
     return mint(*this) += m2;
   }
 
-  mint operator-(const mint &m2) {
+  constexpr mint operator-(const mint &m2) {
     return mint(*this) -= m2;
   }
 
-  mint operator*(const mint &m2) {
+  constexpr mint operator*(const mint &m2) {
     return mint(*this) *= m2;
   }
 
-  mint operator/(const mint &m2) {
+  constexpr mint operator/(const mint &m2) {
     return mint(*this) /= m2;
   }
 
-  mint &operator+=(const mint &m2) {
+  constexpr mint &operator+=(const mint &m2) {
     val += m2.val;
     val %= MOD;
     return *this;
   }
 
-  mint &operator-=(const mint &m2) {
+  constexpr mint &operator-=(const mint &m2) {
     val += MOD - m2.val;
     val %= MOD;
     return *this;
   }
 
-  mint &operator*=(const mint &m2) {
+  constexpr mint &operator*=(const mint &m2) {
     val *= m2.val;
     val %= MOD;
     return *this;
   }
 
-  mint &operator/=(const mint &m2) {
+  constexpr mint &operator/=(const mint &m2) {
     val *= m2.inv();
     val %= MOD;
     return *this;
