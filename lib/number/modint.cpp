@@ -6,7 +6,7 @@ struct mint {
 
   mint(ll val): val(val % MOD) {}
 
-  mint pow(ll x, ll n) {
+  inline mint pow(ll x, ll n) {
     mint res(1);
     while(n > 0) {
       if(n & 1) {
@@ -18,7 +18,7 @@ struct mint {
     return mint(res);
   }
 
-  mint inv() {
+  inline mint inv() {
     return pow(val, MOD-2);
   }
 
