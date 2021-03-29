@@ -18,8 +18,26 @@ struct mint {
     return mint(res);
   }
 
+  ll ext_gcd(ll a, ll b, ll &x, ll &y) {
+    if(b == 0) {
+      x = 1;
+      y = 0;
+      return a;
+    }
+    ll q = a / b;
+    ll g = ext_gcd(b, a-q*b, x, y);
+    ll z = x - q * y;
+    x = y;
+    y = z;
+    return g;
+  }
+
   inline mint inv() {
-    return pow(val, MOD-2);
+    ll x, y;
+    ext_gcd(val, m, x, y);
+    x %= m;
+    if(x < 0) x += m;
+    return Int(x);
   }
 
   constexpr mint operator+(const mint &m2) {
